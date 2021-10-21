@@ -16,7 +16,7 @@ fn part1(input: &[i32]) -> i32 {
 			}
 		}
 	}
-	return 0;
+	return -1;
 }
 
 fn part1_optimized(input: &[i32]) -> i32 {
@@ -30,7 +30,7 @@ fn part1_optimized(input: &[i32]) -> i32 {
 		}
 		j_start += 1;
 	}
-	return 0;
+	return -1;
 }
 
 fn part2(input: &[i32]) -> i32 {
@@ -45,7 +45,7 @@ fn part2(input: &[i32]) -> i32 {
 			}
 		}
 	}
-	return 0;
+	return -1;
 }
 
 fn part2_optimized(input: &[i32]) -> i32 {
