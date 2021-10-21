@@ -1,0 +1,7 @@
+Running day 1:
+	Time to complete generation: 16 μs
+	Part 1 result: 751776
+		Time to complete part 1: 34 μs
+	Part 2 result: 42275090
+		Time to complete part 2: 914 μs
+Total for day 1: 998 μs
