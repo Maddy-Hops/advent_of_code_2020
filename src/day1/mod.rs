@@ -6,7 +6,6 @@ fn generate() -> Vec<i32> {
 	contents.lines().map(|x|x.parse().unwrap()).collect()
 }
 
-
 fn part1_optimized(input: &[i32]) -> i32 {
 	let max = input.len();
 	let mut j_start: usize = 1;
@@ -52,5 +51,4 @@ pub fn run() {
 	let now = Instant::now();
 	println!("\tPart 2 result: {}",part2_optimized(&input));
 	println!("\t\tTime to complete part 2: {} μs",now.elapsed().as_micros());
-
 }
