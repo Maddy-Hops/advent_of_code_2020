@@ -1,8 +1,7 @@
 
+use std::fmt::format;
 use std::time::Instant;
-
-
-
+use std::collections::HashMap;
 
 mod day1;
 mod day2;
@@ -29,27 +28,24 @@ mod day2;
 // mod day23;
 // mod day24;
 // mod day25;
-
+static DAYS_DONE: usize = 2;
 pub fn run(args: &[String]) -> Result<(),&'static str> {
+	let arr = [day1::run,day2::run];
 	if args.len() < 2 {
 		return Err("Too few arguments");
 	}
-
-	
-	if args[1] == "day1" {
-		let now = Instant::now();
-		println!("Running day 1:");
-		day1::run();
-		println!("Total for day 1: {} μs",now.elapsed().as_micros());
+	if args[1][3..].parse::<usize>().unwrap() > DAYS_DONE {
+		return Err("Day not done yet");
 	}
-
-
-	if args[1] == "day2" {
-		let now = Instant::now();
-		println!("Running day 2:");
-		day2::run();
-		println!("Total for day 2: {} μs",now.elapsed().as_micros());
+	let mut map = HashMap::new();
+	for i in 1..=DAYS_DONE {
+		let key = format!("day{}",i);
+		map.insert(key,arr[i-1]);
 	}
+	let now = Instant::now();
+	println!("Running {}:",args[1]);
+	map.get(&args[1]).unwrap()();
+	println!("Total for {}: {} μs",args[1],now.elapsed().as_micros());
 
 	Ok(())
 }
