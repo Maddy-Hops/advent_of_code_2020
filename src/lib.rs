@@ -1,11 +1,9 @@
-
-use std::fmt::format;
 use std::time::Instant;
 use std::collections::HashMap;
 
 mod day1;
 mod day2;
-// mod day3;
+mod day3;
 // mod day4;
 // mod day5;
 // mod day6;
@@ -28,9 +26,16 @@ mod day2;
 // mod day23;
 // mod day24;
 // mod day25;
+
 static DAYS_DONE: usize = 2;
+
 pub fn run(args: &[String]) -> Result<(),&'static str> {
-	let arr = [day1::run,day2::run];
+
+	let arr = [
+		day1::run,
+		day2::run,
+		day3::run,
+		];
 	if args.len() < 2 {
 		return Err("Too few arguments");
 	}
