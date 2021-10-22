@@ -6,18 +6,6 @@ fn generate() -> Vec<i32> {
 	contents.lines().map(|x|x.parse().unwrap()).collect()
 }
 
-fn part1(input: &[i32]) -> i32 {
-	for &i in input {
-		for &j in input {
-			if i != j {
-				if i + j == 2020 {
-					return i * j;
-				}
-			}
-		}
-	}
-	return -1;
-}
 
 fn part1_optimized(input: &[i32]) -> i32 {
 	let max = input.len();
@@ -29,21 +17,6 @@ fn part1_optimized(input: &[i32]) -> i32 {
 			}
 		}
 		j_start += 1;
-	}
-	return -1;
-}
-
-fn part2(input: &[i32]) -> i32 {
-	for &i in input {
-		for &j in input {
-			for &k in input {
-				if i != j && j!= k && i != k {
-					if i + j + k == 2020 {
-						return i*j*k;
-					}
-				}
-			}
-		}
 	}
 	return -1;
 }
