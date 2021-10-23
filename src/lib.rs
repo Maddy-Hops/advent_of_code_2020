@@ -27,7 +27,7 @@ mod day3;
 // mod day24;
 // mod day25;
 
-static DAYS_DONE: usize = 2;
+static DAYS_DONE: usize = 3;
 
 pub fn run(args: &[String]) -> Result<(),&'static str> {
 
