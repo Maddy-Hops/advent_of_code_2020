@@ -3,16 +3,8 @@ use std::fs;
 use std::collections::HashMap;
 
 fn generate(contents: &str) ->  Vec<Vec<&str>> {
-	//let mut groups = vec![];
-	
-	contents.split("\n\n").map(|x|{
-		 let mut tmp = x.split("\n").collect::<Vec<&str>>();
-		 tmp.sort();
-		 tmp
-		}).collect()
-	
+	contents.split("\n\n").map(|x|x.split("\n").collect::<Vec<&str>>()).collect()
 }
-
 
 
 fn part1(input: &Vec<Vec<&str>>) -> usize {
@@ -33,6 +25,7 @@ fn part1(input: &Vec<Vec<&str>>) -> usize {
 	}
 	count
 }
+
 
 fn part2(input: &mut Vec<Vec<&str>>) -> usize {
 	let mut count = 0;
