@@ -1,13 +1,20 @@
+//! # crate advent_of_code_2020
+//! advent_of_code_2020 is a program to run and benchamark solutions to Advent of Code programming puzzles
+//! # Syntax for calling the program: 
+//! ```
+//! ./program_name day1 // where %day1% is the day you want to benchmark
+//! ```
+//! 
 use std::time::Instant;
 use std::collections::HashMap;
 
-static DAYS_DONE: usize = 4;
+static DAYS_DONE: usize = 5;
 
 mod day1;
 mod day2;
 mod day3;
 mod day4;
-// mod day5;
+mod day5;
 // mod day6;
 // mod day7;
 // mod day8;
@@ -38,6 +45,7 @@ pub fn run(args: &[String]) -> Result<(),&'static str> {
 		day2::run,
 		day3::run,
 		day4::run,
+		day5::run,
 		];
 	if args.len() < 2 {
 		return Err("Too few arguments");
