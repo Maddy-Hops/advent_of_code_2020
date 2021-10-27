@@ -8,7 +8,7 @@
 use std::time::Instant;
 use std::collections::HashMap;
 
-static DAYS_DONE: usize = 7;
+static DAYS_DONE: usize = 8;
 
 mod day1;
 mod day2;
@@ -17,7 +17,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
-// mod day8;
+mod day8;
 // mod day9;
 // mod day10;
 // mod day11;
@@ -48,6 +48,7 @@ pub fn run(args: &[String]) -> Result<(),&'static str> {
 		day5::run,
 		day6::run,
 		day7::run,
+		day8::run,
 		];
 	if args.len() < 2 {
 		return Err("Too few arguments");
