@@ -82,17 +82,20 @@ fn part2(command_list: &mut Vec<(String,String)>) -> i128 {
 	map.insert("jmp", "nop");
 	map.insert("nop", "jmp");
 	let mut result: (i128,Result<(),()>) = (0,Err(()));
+	let mut has_changed = false;
 	for i in 0..command_list.len() {
 		// change the list back if loop ran again
-		if i> 0 {
+		if has_changed {
 			if command_list[i-1].0 == "nop" || command_list[i-1].0 == "jmp" {
 				command_list[i-1].0 = map.get(&command_list[i-1].0 as &str).unwrap().to_string();
+				has_changed = false;
 			}
 		}
 		// change the next command
 		let command = &command_list[i].0;
 		if command_list[i].0 == "nop" || command_list[i].0 == "jmp" {
 			command_list[i].0 = map.get(&command as &str).unwrap().to_string();
+			has_changed = true;
 		}
 		 
 		result = CommandRunner::run(&command_list);
