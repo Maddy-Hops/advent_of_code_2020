@@ -2,7 +2,7 @@ use std::time::Instant;
 use std::fs;
 
 fn generate() -> Vec<i32>{
-	let contents = fs::read_to_string("input/day10.txt").expect("Failed to read the input file");
+	let contents = fs::read_to_string("input/day13.txt").expect("Failed to read the input file");
 	contents.lines()
 	.map(|f| f.parse::<i32>().unwrap()).collect()
 	
