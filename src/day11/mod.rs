@@ -152,8 +152,3 @@ pub fn run() {
 		now.elapsed().as_micros()
 	);
 }
-
-#[cfg(test)]
-mod tests {
-	fn test_rules(input: Vec<String>) {}
-}
