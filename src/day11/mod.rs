@@ -39,40 +39,14 @@ enum Seat {
 // If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
 // Otherwise, the seat's state does not change.
 
-fn part1(input: &Vec<Vec<Seat>>) -> i32 {
-	let mut field_before = input.clone();
-	let mut field_new = field_before.clone();
-	loop {
-		let mut has_changed = false;
-		for i in 1..field_before.len() - 1 {
-			for j in 1..field_before[0].len() - 1 {
-				match check_neighbours(&field_before, i, j) {
-					(counter, Seat::Emp) if counter == 0 => {
-						field_new[i][j] = Seat::Occ;
-						has_changed = true;
-					}
-					(counter, Seat::Occ) if counter >= 4 => {
-						field_new[i][j] = Seat::Emp;
-						has_changed = true;
-					}
-					_ => (),
-				}
-			}
-		}
-		field_before = field_new.clone();
-		if !has_changed {
-			break;
-		}
-	}
-	let field_new: Vec<Seat> = field_new.into_iter().flat_map(|f| f).collect();
-	let mut counter = 0;
-	field_new.into_iter().for_each(|f| {
-		if f == Seat::Occ {
-			counter += 1
-		}
-	});
-	counter
+fn part1(input: &Vec<Vec<Seat>>) -> usize {
+	area_simulator(input.clone(), &check_neighbours, 4)
 }
+
+fn part2(input: Vec<Vec<Seat>>) -> usize {
+	area_simulator(input, &check_neighbours_in_line, 5)
+}
+
 const ARR: [(i32, i32); 8] = [
 	(1, 1),
 	(1, 0),
@@ -94,40 +68,6 @@ fn check_neighbours(field: &Vec<Vec<Seat>>, i: usize, j: usize) -> (usize, Seat)
 	(counter, field[i][j].clone())
 }
 
-fn part2(input: Vec<Vec<Seat>>) -> i32 {
-	let mut field_before = input;
-	let mut field_new = field_before.clone();
-	loop {
-		let mut has_changed = false;
-		for i in 1..field_before.len() {
-			for j in 1..field_before[0].len() {
-				match check_neighbours_in_line(&field_before, i, j) {
-					(counter, Seat::Emp) if counter == 0 => {
-						field_new[i][j] = Seat::Occ;
-						has_changed = true;
-					}
-					(counter, Seat::Occ) if counter >= 5 => {
-						field_new[i][j] = Seat::Emp;
-						has_changed = true;
-					}
-					_ => (),
-				}
-			}
-		}
-		field_before = field_new.clone();
-		if !has_changed {
-			break;
-		}
-	}
-	let field_new: Vec<Seat> = field_new.into_iter().flat_map(|f| f).collect();
-	let mut counter = 0;
-	field_new.into_iter().for_each(|f| {
-		if f == Seat::Occ {
-			counter += 1
-		}
-	});
-	counter
-}
 fn check_neighbours_in_line(field: &Vec<Vec<Seat>>, i: usize, j: usize) -> (usize, Seat) {
 	let mut counter = 0;
 
@@ -149,6 +89,45 @@ fn check_neighbours_in_line(field: &Vec<Vec<Seat>>, i: usize, j: usize) -> (usiz
 		}
 	}
 	(counter, field[i][j].clone())
+}
+
+fn area_simulator(
+	input: Vec<Vec<Seat>>,
+	check_neighbours_fn: &dyn Fn(&Vec<Vec<Seat>>, usize, usize) -> (usize, Seat),
+	abandon_seat_limit: usize,
+) -> usize {
+	let mut field_before = input;
+	let mut field_new = field_before.clone();
+	loop {
+		let mut has_changed = false;
+		for i in 1..field_before.len() - 1 {
+			for j in 1..field_before[0].len() - 1 {
+				match check_neighbours_fn(&field_before, i, j) {
+					(counter, Seat::Emp) if counter == 0 => {
+						field_new[i][j] = Seat::Occ;
+						has_changed = true;
+					}
+					(counter, Seat::Occ) if counter >= abandon_seat_limit => {
+						field_new[i][j] = Seat::Emp;
+						has_changed = true;
+					}
+					_ => (),
+				}
+			}
+		}
+		field_before = field_new.clone();
+		if !has_changed {
+			break;
+		}
+	}
+	let field_new: Vec<Seat> = field_new.into_iter().flat_map(|f| f).collect();
+	let mut counter = 0;
+	field_new.into_iter().for_each(|f| {
+		if f == Seat::Occ {
+			counter += 1
+		}
+	});
+	counter
 }
 
 pub fn run() {
