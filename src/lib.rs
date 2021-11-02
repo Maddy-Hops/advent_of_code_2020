@@ -34,7 +34,7 @@ mod day9;
 // mod day24;
 // mod day25;
 
-static DAYS_DONE: usize = 12;
+static DAYS_DONE: usize = 13;
 
 pub fn run(args: &[String]) -> Result<(), &'static str> {
 	let arr = [
