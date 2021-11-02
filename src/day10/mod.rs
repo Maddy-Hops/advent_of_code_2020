@@ -25,7 +25,6 @@ fn part1(input: &[i32]) -> i32 {
 		let count = map.entry(input[i + 1] - input[i]).or_insert(0);
 		*count += 1;
 	}
-	println!("{:?}", &map);
 	map.get(&1).unwrap() * map.get(&3).unwrap()
 }
 
