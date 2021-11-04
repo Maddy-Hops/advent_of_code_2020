@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-use std::fs;
 use std::time::Instant;
 
 fn generate_sequence(starting_sequence: &[usize], n: usize) -> Vec<usize> {
