@@ -1,19 +1,28 @@
+use std::collections::HashSet;
 use std::time::Instant;
 
 fn generate_sequence(starting_sequence: &[usize], n: usize) -> Vec<usize> {
 	let mut sequence: Vec<_> = starting_sequence.to_vec();
-
+	let mut unique_elements = HashSet::new();
+	for i in 0..starting_sequence.len() - 1 {
+		unique_elements.insert(sequence[i]);
+	}
+	println!("{:?}", unique_elements);
 	for i in starting_sequence.len()..n {
 		let sequence_to_search = &sequence[0..i - 1];
+		let last_element = sequence[i - 1];
 		let num;
-		match sequence_to_search
-			.iter()
-			.rposition(|x| x == &sequence[i - 1])
-		{
-			Some(m) => num = i - m - 1,
-			None => num = 0,
+		if !unique_elements.insert(last_element) {
+			num = i
+				- sequence_to_search
+					.iter()
+					.rposition(|&x| x == last_element)
+					.unwrap() - 1;
+		} else {
+			num = 0;
 		}
 		sequence.push(num);
+		println!("{:?}", i);
 	}
 	sequence
 }
@@ -40,7 +49,7 @@ pub fn run() {
 		now.elapsed().as_micros()
 	);
 	let now = Instant::now();
-	println!("\tPart 1 result: {}", part2(&[16, 11, 15, 0, 1, 7]));
+	println!("\tPart 2 result: {}", part2(&[16, 11, 15, 0, 1, 7]));
 	println!(
 		"\t\tTime to complete part 2: {} μs",
 		now.elapsed().as_micros()
