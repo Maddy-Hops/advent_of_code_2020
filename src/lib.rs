@@ -1,10 +1,5 @@
-//! # crate advent_of_code_2020
-//! advent_of_code_2020 is a program to run and benchamark solutions to Advent of Code programming puzzles
-//! # Syntax for calling the program:
-//! ```
-//! ./program_name day1 // where %day1% is the day you want to benchmark
-//! ```
-//!
+/// # crate advent_of_code_2020
+/// advent_of_code_2020 is a program to run and benchamark solutions to Advent of Code programming puzzles
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -13,6 +8,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 mod day2;
 mod day3;
 mod day4;
@@ -21,7 +17,6 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
-// mod day14;
 // mod day15;
 // mod day16;
 // mod day17;
@@ -34,7 +29,7 @@ mod day9;
 // mod day24;
 // mod day25;
 
-static DAYS_DONE: usize = 13;
+static DAYS_DONE: usize = 14;
 
 pub fn run(args: &[String]) -> Result<(), &'static str> {
 	let arr = [
@@ -51,6 +46,7 @@ pub fn run(args: &[String]) -> Result<(), &'static str> {
 		day11::run,
 		day12::run,
 		day13::run,
+		day14::run,
 	];
 	if args.len() < 2 {
 		return Err("Too few arguments");
