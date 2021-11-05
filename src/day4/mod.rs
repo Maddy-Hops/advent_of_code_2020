@@ -1,24 +1,19 @@
-use std::time::Instant;
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
+use std::time::Instant;
 
 fn generate<'a>(contents: &'a str) -> Vec<PassportEntry<'a>> {
-	contents.split("\n\n").map(|x| PassportEntry::new(x)).collect::<Vec<_>>()
+	contents
+		.split("\n\n")
+		.map(|x| PassportEntry::new(x))
+		.collect::<Vec<_>>()
 }
 
-const FIELDS: &'static [&'static str ] = &[
-	"byr",
-	"iyr",
-	"eyr",
-	"hgt",
-	"hcl",
-	"ecl",
-	"pid",
-	"cid"];
+const FIELDS: &'static [&'static str] = &["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"];
 
 #[allow(dead_code)]
 struct PassportEntry<'a> {
-	fields: HashMap<&'a str,&'a str>,
+	fields: HashMap<&'a str, &'a str>,
 	valid_no_cid: bool,
 	valid: bool,
 }
@@ -28,15 +23,17 @@ impl<'a> PassportEntry<'a> {
 	// every input string is a series of key:value pairs separated by comma
 	// every input string is valid ASCII
 	fn new(input: &'a str) -> PassportEntry<'a> {
-		let input = input.split('\n')
-		.flat_map(|x| x.split_whitespace())
-		.collect::<Vec<_>>();
+		let input = input
+			.split('\n')
+			.flat_map(|x| x.split_whitespace())
+			.collect::<Vec<_>>();
 		let keys_values: Vec<_> = input.into_iter().map(|f| f.split(":")).collect();
 		let mut fields = HashMap::new();
-		keys_values.into_iter()
-		.map(|mut f| fields.insert(f.next().unwrap(), f.next().unwrap()))
-		.for_each(drop);
-		
+		keys_values
+			.into_iter()
+			.map(|mut f| fields.insert(f.next().unwrap(), f.next().unwrap()))
+			.for_each(drop);
+
 		let mut valid = true;
 		let mut valid_no_cid = true;
 		for &provided_field in FIELDS {
@@ -117,13 +114,14 @@ impl<'a> PassportEntry<'a> {
 		}
 		// validate ecl
 		let ecl = self.fields["ecl"];
-		if !(ecl == "amb" 
-		|| ecl == "blu"
-		|| ecl == "brn"
-		|| ecl == "gry"
-		|| ecl == "grn"
-		|| ecl == "hzl" 
-		|| ecl == "oth") {
+		if !(ecl == "amb"
+			|| ecl == "blu"
+			|| ecl == "brn"
+			|| ecl == "gry"
+			|| ecl == "grn"
+			|| ecl == "hzl"
+			|| ecl == "oth")
+		{
 			return false;
 		}
 		// validate pid
@@ -139,16 +137,14 @@ impl<'a> PassportEntry<'a> {
 	}
 }
 
-
-
-fn part1<'a>(input: &'a [PassportEntry]) -> (usize,Vec<&'a PassportEntry<'a>>) {
+fn part1<'a>(input: &'a [PassportEntry]) -> (usize, Vec<&'a PassportEntry<'a>>) {
 	let mut valid_entries = vec![];
 	for entry in input {
 		if entry.valid_no_cid {
 			valid_entries.push(entry.clone());
 		}
 	}
-	(valid_entries.len(),valid_entries)
+	(valid_entries.len(), valid_entries)
 }
 
 // valid entries has all fields
@@ -162,19 +158,27 @@ fn part2<'a>(valid_entries: Vec<&'a PassportEntry>) -> usize {
 	counter
 }
 
-
 pub fn run() {
 	let now = Instant::now();
 	let contents = fs::read_to_string("input/day4.txt").expect("Failed to load input");
 	let input = generate(&contents);
-	println!("\tTime to complete generation: {} μs",now.elapsed().as_micros());
+	println!(
+		"\tTime to complete generation: {} μs",
+		now.elapsed().as_micros()
+	);
 
 	let now = Instant::now();
-	let (counter,valid_entries) = part1(&input);
-	println!("\tPart 1 result: {:?}",counter);
-	println!("\t\tTime to complete part 1: {} μs",now.elapsed().as_micros());
+	let (counter, valid_entries) = part1(&input);
+	println!("\tPart 1 result: {:?}", counter);
+	println!(
+		"\t\tTime to complete part 1: {} μs",
+		now.elapsed().as_micros()
+	);
 
 	let now = Instant::now();
-	println!("\tPart 2 result: {:?}",part2(valid_entries));
-	println!("\t\tTime to complete part 2: {} μs",now.elapsed().as_micros());
+	println!("\tPart 2 result: {:?}", part2(valid_entries));
+	println!(
+		"\t\tTime to complete part 2: {} μs",
+		now.elapsed().as_micros()
+	);
 }
