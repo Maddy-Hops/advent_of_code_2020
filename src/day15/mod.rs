@@ -1,28 +1,23 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 use std::time::Instant;
 
 fn generate_sequence(starting_sequence: &[usize], n: usize) -> Vec<usize> {
 	let mut sequence: Vec<_> = starting_sequence.to_vec();
-	let mut unique_elements = HashSet::new();
+	let mut unique_elements = HashMap::new();
 	for i in 0..starting_sequence.len() - 1 {
-		unique_elements.insert(sequence[i]);
+		unique_elements.insert(starting_sequence[i], i);
 	}
-	println!("{:?}", unique_elements);
 	for i in starting_sequence.len()..n {
-		let sequence_to_search = &sequence[0..i - 1];
 		let last_element = sequence[i - 1];
 		let num;
-		if !unique_elements.insert(last_element) {
-			num = i
-				- sequence_to_search
-					.iter()
-					.rposition(|&x| x == last_element)
-					.unwrap() - 1;
+		if let Some(index) = unique_elements.get(&last_element) {
+			num = i - index - 1;
+			*unique_elements.get_mut(&last_element).unwrap() = i - 1;
 		} else {
 			num = 0;
+			unique_elements.insert(last_element, i - 1);
 		}
 		sequence.push(num);
-		println!("{:?}", i);
 	}
 	sequence
 }
@@ -78,6 +73,15 @@ mod tests {
 		assert_eq!(
 			generate_sequence(&[0, 3, 6], 30000000)[30000000 - 1],
 			175594
+		);
+		assert_eq!(generate_sequence(&[1, 3, 2], 30000000)[30000000 - 1], 2578);
+		assert_eq!(
+			generate_sequence(&[2, 1, 3], 30000000)[30000000 - 1],
+			3544142
+		);
+		assert_eq!(
+			generate_sequence(&[1, 2, 3], 30000000)[30000000 - 1],
+			261214
 		);
 	}
 }
